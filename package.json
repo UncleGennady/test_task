@@ -1,0 +1,23 @@
+{
+    "name": "test_task",
+    "version": "1.0.0",
+    "description": "",
+    "main": "App.js",
+    "scripts": {
+        "test": "test",
+        "server": "json-server -w server/db.json -p 3001"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/UncleGennady/test_task.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/UncleGennady/test_task/issues"
+    },
+    "homepage": "https://github.com/UncleGennady/test_task#readme",
+    "dependencies": {
+        "json-server": "^0.17.0"
+    }
+}
