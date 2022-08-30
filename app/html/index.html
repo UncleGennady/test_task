@@ -6,20 +6,84 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../style/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./../style/style.css">
     <title>Document</title>
 </head>
 
 <body>
-    <header class="d-flex justify-content-center pt-4">
-        <h1 class="">Ваши траты</h1>
+    <header>
+        <div class="add_position">
+            <div class="container">
+               <div class="row d-flex justify-content-center pt-4 flex-wrap">
+                   <h1 class="pb-3 text-center">Ваши траты</h1>
+                   <div class="container d-flex justify-content-center pt-5 pb-5">
+                       <button  class="add-contact btn btn-success btn-sm ">
+                           <span>
+                               Добавить трату
+                           </span>
+                           <i class="bi bi-plus-square"></i>
+                       </button>
+                   </div>
+               </div>
+               </div>
+        </div>
+        <div class="filters">
+            <div class="container">
+                <div class="category-search d-flex justify-content-center gap-3 pb-3">
+                    <span class="fw-bold pt-1">Поиск по категории:</span>
+                    <input id="category-search" type="text" placeholder="some filter">
+                </div>
+                <div class="date-search d-flex justify-content-center gap-3 pb-3">
+                    <span class="fw-bold pt-1">Поиск по дате:</span>
+                    <input id="date-search" type="text" placeholder="01.01.2022">
+                </div>
+
+            </div>
+        </div>
     </header>
     <main>
-        <div class="container col-8">
+        <div class="position_title">
+            <div class="container col-8">
 
-            <h2 class="mt-5 pb-2 text-center border-top border-bottom">Позиции</h2>
+                <h2 class="mt-5 pb-2 text-center border-top border-bottom">Позиции</h2>
 
+            </div>
         </div>
+
+        <div class="position">
+            <div class="container">
+                <div class="row d-flex flex-row-reverse gap-3">
+                    <div class="position__item">
+                        <div class="date">Дата: 22.11.2022</div>
+                        <div class="category">Категория: eда</div>
+                        <div class="price">Потраченно: 250грн</div>
+                        <button class="btn-item-delete btn btn-danger btn-sm">
+                            <i class="bi bi-x-circle"></i>
+                        </button>
+                    </div>
+                    <div class="position__item">
+                        <div class="date">Дата: 11.11.2022</div>
+                        <div class="category">Категория: eда</div>
+                        <div class="price">Потраченно: 250грн</div>
+                        <button class="btn-item-delete btn btn-danger btn-sm">
+                            <i class="bi bi-x-circle"></i>
+                        </button>
+                    </div>
+                    <div class="container d-flex justify-content-center pt-5 pb-5">
+                        <button  class="add-contact btn btn-danger btn-sm">
+                           <span>
+                               Очистить список
+                           </span>
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
     </main>
     <script defer src="../script/bootstrap.min.js"></script>
     <script src="./../script/App.js" type="module"></script>
