@@ -1,6 +1,16 @@
+import {
+    dbUrl,
+} from './config.js';
+
 class Controller {
     #model = null;
     #view = null;
+
+    user = {
+        id: 3,
+        name: 'Vovchik',
+        age: 'so old',
+    };
 
     constructor(Model, View) {
         this.model = Model;
@@ -8,7 +18,9 @@ class Controller {
 
     }
     init(){
-
+        this.#model.sendRequest('GET', dbUrl,)
+            .then(r => console.log(r))
+        this.#model.sendRequest('POST',dbUrl, this.user );
     }
    set model(modelClass){
         if(!modelClass) throw new Error('model is invalid')

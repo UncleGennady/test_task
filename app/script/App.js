@@ -8,3 +8,4 @@ import Model from './mvc/model.js';
 const app = new Controller(Model, View);
 app.init();
 console.log(app)
+
