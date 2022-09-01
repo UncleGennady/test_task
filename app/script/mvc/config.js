@@ -7,3 +7,6 @@ export const wastedElements = '.wasted_elements';
 export const keyCurrentUser = 'user';
 export const exit = '#exit';
 export const spanUserName = '#user_name';
+export const deleteFullList = 'delete_full_list';
+export const deleteItemList ='btn-item-delete';
+export const listSelectorContainer = '#list';

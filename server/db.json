@@ -1,24 +1,16 @@
 {
   "user": [
     {
-      "id": 1,
-      "name": "Sasha",
-      "age": 21
+      "login": "UncleGennady",
+      "password": "1",
+      "list": [],
+      "id": 1
     },
     {
-      "id": 2,
-      "name": "Liza",
-      "age": 20
-    },
-    {
-      "id": 3,
-      "name": "Vovchik",
-      "age": "so old"
-    },
-    {
-      "id": 4,
-      "name": "Vovchik",
-      "age": "so old"
+      "login": "tsew2205@gmail.com",
+      "password": "1",
+      "list": [],
+      "id": 2
     }
   ]
 }

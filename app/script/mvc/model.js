@@ -6,14 +6,17 @@ import {
 class Model {
     #userIs = false
     #currentUser = null;
+    listData = [];
+    userId = !!(JSON.parse(this.getData(keyCurrentUser,sessionStorage))) ? (JSON.parse(this.getData(keyCurrentUser,sessionStorage))).id : null;
+
     constructor(user) {
-        this.#currentUser = user
+        this.#currentUser = user;
     }
-    // #setID = function* (id){
-    //     let index = id;
-    //     while(true)
-    //         yield index++;
-    // };
+    #setID = function* (id){
+        let index = id;
+        while(true)
+            yield index++;
+    };
 
     sendRequest = async function (method, url, body = null) {
         if(method ==="POST" && await this.#checkUser(body)) return;
@@ -51,16 +54,21 @@ class Model {
         const response = await this.#authorizationСheck(saveData)
         console.log(response)
         if(!!response.userAuthentication){
-            await storage.setItem(key, saveData.login);
+            console.log(response,32131)
+            saveData.id = response.item.id;
+            this.userId = saveData.id
+            await storage.setItem(key, JSON.stringify(saveData));
             return true
         };
 
         if(response.ok && !response.userAuthentication) return false;
+        saveData.list = [];
         let id = await this.getLastIDFromDb() + 1;
         console.log(id);
         saveData.id = await id;
+        this.userId = saveData.id
         await this.sendRequest("POST", dbUrl, saveData);
-        await storage.setItem(key, saveData.login);
+        await storage.setItem(key, JSON.stringify(saveData));
         return true;
     };
     getData(key,storage){
@@ -87,6 +95,15 @@ class Model {
         response.ok = false;
         return response
     };
+
+    // set listData (value){
+    //     if(!(value instanceof Array)) throw new Error('ListData must been array');
+    //     this.listUser = value;
+    // }
+    // get listData(){
+    //     console.log(this.#listData);
+    //     return this.#listData;
+    // }
 
     set currentUser (value){
         if(typeof value !== 'string') throw new Error('Login must been str');

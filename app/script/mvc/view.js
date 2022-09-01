@@ -93,7 +93,6 @@ class View{
     #createWasted(data){
         console.log(data);
         if(!data) return document.createElement('div').innerText = wastedAreEmptyText;
-
         const wasted = document.createElement('div');
         wasted.classList.add('position__item')
         wasted.setAttribute('data-id', data.id);
@@ -117,6 +116,15 @@ class View{
         const wastedContainer = getElement(wastedElements);
         if(wastedContainer.innerText === wastedAreEmptyText) wastedContainer.innerText = '';
         wastedContainer.prepend(this.#createWasted(dataToRender));
+    }
+    renderWastedList(data){
+        const wastedContainer = getElement(wastedElements);
+        if(wastedContainer.innerText === wastedAreEmptyText) wastedContainer.innerText = '';
+        data.forEach(i => wastedContainer.prepend(this.#createWasted(i)));
+    }
+    clearContainer(selector, value){
+        if(selector instanceof HTMLAllCollection) return selector.innerHTML= value;
+        getElement(selector).innerText = value
     }
 
     set modalHeader (value){

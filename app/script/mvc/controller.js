@@ -5,6 +5,10 @@ import {
     loginModalTitle,
     keyCurrentUser,
     exit,
+    wastedElements,
+    deleteFullList,
+    listSelectorContainer,
+    deleteItemList,
 } from './config.js';
 
 import {
@@ -14,6 +18,7 @@ import {
 class Controller {
     #model = null;
     #view = null;
+    // #idUser = null;
 
     // user = {
     //     id: 3,
@@ -36,16 +41,22 @@ class Controller {
        // await this.#model.authorizationСheck();
         this.#loadEvent();
         this.#handleWastedAddBtn();
-        this.exitHandler();
+        this.#addEventListContainer();
+        this.#exitHandler();
+
     };
 
     #handleWastedAddBtn() {
         getElement(addWastedSelector).addEventListener('click',this.#wastedAddBtnHandler)
     }
-    #loadEvent(){
+    async #loadEvent(){
         console.log(this.#model.getData(keyCurrentUser,sessionStorage))
-
-        this.#view.renderNameUser((this.#model.getData(keyCurrentUser,sessionStorage) || ''));
+        const data = JSON.parse(this.#model.getData(keyCurrentUser,sessionStorage))
+        // this.#idUser = !!data ? data.id : null
+        const userName = !!data ? data.login : '';
+        this.#downloadList();
+        console.log(userName)
+        this.#view.renderNameUser(userName);
         if(!!(this.#model.getData(keyCurrentUser,sessionStorage))) return;
         console.log(321);
         document.addEventListener('DOMContentLoaded',this.#loginHandler)
@@ -60,11 +71,19 @@ class Controller {
         this.#view.openModal();
 
     }
+    #downloadList = async () =>{
+        if(!!this.#model.userId){
+            this.#model.listData = await this.#model.sendRequest("GET", `${dbUrl}/${this.#model.userId}`).then(r => r.list)
+            console.log(this.#model.listData, "impot")
+            await this.#view.renderWastedList(this.#model.listData);
+        }
+    }
 
-    exitHandler(){
-        document.querySelector(exit).addEventListener('click',(e)=>{
+    #exitHandler(){
+       getElement(exit).addEventListener('click',(e)=>{
             console.log(1234);
             sessionStorage.removeItem(keyCurrentUser);
+            this.#view.clearContainer(wastedElements, "");
             window.location.reload()
 
         })
@@ -115,17 +134,18 @@ class Controller {
             this.#view.clearModalBody()},150);
 
         target.removeEventListener('submit', this.#loginFormHandler);
-        this.#model.currentUser = data.login;
-        const response = this.#model.setData(keyCurrentUser, data, sessionStorage);
+        this.#model.currentUser = savedData.login;
+        const response = this.#model.setData(keyCurrentUser, savedData, sessionStorage);
         if(! (await response)) {
             alert('Такой юзер уже есть. Повторите попытку входа')
             window.location.reload()
         }
-        this.#view.renderNameUser(this.#model.getData(keyCurrentUser, sessionStorage));
+        this.#view.renderNameUser(savedData.login);
+        this.#downloadList();
 
     }
 
-    #addWastedFormHandler = e => {
+    #addWastedFormHandler = async e => {
         e.preventDefault();
         e.stopPropagation();
         console.log(e)
@@ -142,9 +162,53 @@ class Controller {
             this.#view.clearModalBody()},150);
 
         target.removeEventListener('submit', this.#addWastedFormHandler);
-
+        this.#model.listData = await this.#model.sendRequest("GET", `${dbUrl}/${this.#model.userId}`).then(r => r.list)
+        data.id = await this.#model.listData[this.#model.listData.length-1] ? (this.#model.listData[this.#model.listData.length-1].id)+1 : 1;
+        console.log(data.id);
         this.#view.renderWasted(data);
+
+        this.#model.listData.push(data);
+        if(!!this.#model.userId) {
+            console.log('maybe happy');
+            console.log( this.#model.listData, "IMPOT")
+            await this.#model.sendRequest("PATCH", `${dbUrl}/${this.#model.userId}`, {
+                "list": await this.#model.listData
+            })
+        }
     }
+    #addEventListContainer = () =>{
+        getElement(listSelectorContainer).addEventListener('click',this.#addEventListContainerHandler)
+
+
+    }
+    #addEventListContainerHandler = (e) =>{
+        e.preventDefault()
+        e.stopPropagation()
+        console.log(e.target);
+        // e.path.forEach(i => console.log(i.classList))
+
+        if(e.target.classList.contains(deleteFullList)){this.#view.clearContainer(wastedElements, null);
+        this.#model.sendRequest("PATCH", `${dbUrl}/${this.#model.userId}`, {
+            "list": []
+            })
+        }
+
+        if(e.target.classList.contains(deleteItemList)){
+            let elForDelete = (e.path.find(i => i.hasAttribute('data-id') ))
+            const idForDelete = +elForDelete.getAttribute('data-id')
+            console.log(idForDelete);
+            console.log(this.#model.listData);
+            this.#model.listData = this.#model.listData.filter(i  => i.id !== idForDelete);
+            this.#model.sendRequest("PATCH", `${dbUrl}/${this.#model.userId}`, {
+                "list": this.#model.listData
+            })
+            console.log(this.#model.listData)
+            this.#view.clearContainer(wastedElements, null)
+            this.#view.renderWastedList(this.#model.listData);
+
+        }
+    }
+
    set model(modelClass){
         if(!modelClass) throw new Error('model is invalid')
         this.#model = new modelClass()

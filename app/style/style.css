@@ -16,3 +16,12 @@
     justify-content: center;
     align-items: center;
 }
+.btn-item-delete i {
+    pointer-events: none;
+}
+.delete_full_list i{
+    pointer-events: none;
+}
+.delete_full_list span{
+    pointer-events: none;
+}
