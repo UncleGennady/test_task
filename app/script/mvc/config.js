@@ -1,1 +1,9 @@
 export const dbUrl = 'http://localhost:3001/user';
+export const addWastedSelector = '.add-wasted';
+export const addWastedModalTitle = 'Добавить трату';
+export const wastedAreEmptyText = 'Трат не найдено';
+export const loginModalTitle = 'Войдите';
+export const wastedElements = '.wasted_elements';
+export const keyCurrentUser = 'user';
+export const exit = '#exit';
+export const spanUserName = '#user_name';

@@ -16,9 +16,12 @@
         <div class="add_position">
             <div class="container">
                <div class="row d-flex justify-content-center pt-4 flex-wrap">
-                   <h1 class="pb-3 text-center">Ваши траты</h1>
+                   <div class="d-flex justify-content-between">
+                       <h1 class="pb-3 text-center"> Здраствуйте <span id="user_name"></span>. Ваши траты</h1>
+                       <button  class="btn btn-warning btn-sm " id="exit"> Выйти </button>
+                   </div>
                    <div class="container d-flex justify-content-center pt-5 pb-5">
-                       <button  class="add-contact btn btn-success btn-sm ">
+                       <button  class="add-wasted btn btn-success btn-sm ">
                            <span>
                                Добавить трату
                            </span>
@@ -53,7 +56,7 @@
 
         <div class="position">
             <div class="container">
-                <div class="row d-flex flex-row-reverse gap-3">
+                <div class="row d-flex flex-row-reverse gap-3 wasted_elements">
                     <div class="position__item">
                         <div class="date">Дата: 22.11.2022</div>
                         <div class="category">Категория: eда</div>
@@ -86,7 +89,7 @@
 
     </main>
     <script defer src="../script/bootstrap.min.js"></script>
-    <script src="./../script/App.js" type="module"></script>
+    <script defer src="./../script/App.js" type="module"></script>
 </body>
 
 </html>
