@@ -5,19 +5,11 @@ import {
 
 class Model {
     #userIs = false
-    #currentUser = null;
     listData = [];
     userId = !!(JSON.parse(this.getData(keyCurrentUser,sessionStorage))) ? (JSON.parse(this.getData(keyCurrentUser,sessionStorage))).id : null;
 
-    constructor(user) {
-        this.#currentUser = user;
+    constructor() {
     }
-    #setID = function* (id){
-        let index = id;
-        while(true)
-            yield index++;
-    };
-
     sendRequest = async function (method, url, body = null) {
         if(method ==="POST" && await this.#checkUser(body)) return;
         const headers = {'Content-Type': 'application/json'};
@@ -52,9 +44,7 @@ class Model {
     async setData(key, value, storage){
         const saveData = structuredClone(value);
         const response = await this.#authorizationСheck(saveData)
-        console.log(response)
         if(!!response.userAuthentication){
-            console.log(response,32131)
             saveData.id = response.item.id;
             this.userId = saveData.id
             await storage.setItem(key, JSON.stringify(saveData));
@@ -74,10 +64,9 @@ class Model {
     getData(key,storage){
         return storage.getItem(key);
     };
-
+//проверка авторизации
     #authorizationСheck = async (data) => {
         const dbData = await this.sendRequest('GET', dbUrl)
-        console.log(123);
         const response ={}
         if(await dbData.some(i => i.login === data.login && i.password !== data.password)){
             response.userAuthentication = false;
@@ -95,25 +84,6 @@ class Model {
         response.ok = false;
         return response
     };
-
-    // set listData (value){
-    //     if(!(value instanceof Array)) throw new Error('ListData must been array');
-    //     this.listUser = value;
-    // }
-    // get listData(){
-    //     console.log(this.#listData);
-    //     return this.#listData;
-    // }
-
-    set currentUser (value){
-        if(typeof value !== 'string') throw new Error('Login must been str');
-        this.#currentUser = value;
-    }
-    get currentUser(){
-        console.log(this.#currentUser);
-        return this.#currentUser;
-    }
-
 }
 
 

@@ -69,7 +69,7 @@ class View{
         form.innerHTML = `
                 <div class="mb-3">
                   <label for="wasted-date" class="form-label">Дата траты</label>
-                  <input name="wastedDate" required type="text" class="form-control" id="wasted-date" placeholder="11.11.2011">
+                  <input name="wastedDate" required type="date"  class="form-control" id="wasted-date" placeholder="11.11.2011">
                 </div>
                 <div class="mb-3">
                   <label for="category" class="form-label">Категория</label>
@@ -91,7 +91,6 @@ class View{
 
 
     #createWasted(data){
-        console.log(data);
         if(!data) return document.createElement('div').innerText = wastedAreEmptyText;
         const wasted = document.createElement('div');
         wasted.classList.add('position__item')
@@ -125,6 +124,14 @@ class View{
     clearContainer(selector, value){
         if(selector instanceof HTMLAllCollection) return selector.innerHTML= value;
         getElement(selector).innerText = value
+    }
+
+    renderFilterWasted(data, container){
+        if(!data) return;
+
+        container.innerHTML = '';
+
+        data.then(r => r.forEach(item =>container.prepend(this.#createWasted(item))));
     }
 
     set modalHeader (value){

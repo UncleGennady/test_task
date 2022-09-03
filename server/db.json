@@ -3,14 +3,21 @@
     {
       "login": "UncleGennady",
       "password": "1",
-      "list": [],
+      "list": [
+        {
+          "wastedDate": "2022-09-01",
+          "category": "1",
+          "price": "1",
+          "id": 1
+        },
+        {
+          "wastedDate": "2022-09-04",
+          "category": "кино",
+          "price": "1",
+          "id": 2
+        }
+      ],
       "id": 1
-    },
-    {
-      "login": "tsew2205@gmail.com",
-      "password": "1",
-      "list": [],
-      "id": 2
     }
   ]
 }
